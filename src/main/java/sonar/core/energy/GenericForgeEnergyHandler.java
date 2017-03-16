@@ -17,8 +17,8 @@ public class GenericForgeEnergyHandler {
 		if (tile == null) {
 			return energyStack;
 		}
-		IEnergyStorage storage = tile.getCapability(CapabilityEnergy.ENERGY, dir);
-		if (storage != null) {
+		if (tile.hasCapability(CapabilityEnergy.ENERGY, dir)) {
+			IEnergyStorage storage = tile.getCapability(CapabilityEnergy.ENERGY, dir);
 			energyStack.setStorageValues(storage.getEnergyStored(), storage.getMaxEnergyStored());
 			energyStack.setMaxInput(storage.canReceive() ? storage.receiveEnergy(Integer.MAX_VALUE, true) : 0);
 			energyStack.setMaxOutput(storage.canExtract() ? storage.extractEnergy(Integer.MAX_VALUE, true) : 0);
@@ -27,8 +27,8 @@ public class GenericForgeEnergyHandler {
 	}
 
 	public static StoredEnergyStack addEnergy(StoredEnergyStack transfer, ICapabilityProvider tile, EnumFacing dir, ActionType action) {
-		IEnergyStorage storage = tile.getCapability(CapabilityEnergy.ENERGY, dir);
-		if (storage != null) {
+		if (tile.hasCapability(CapabilityEnergy.ENERGY, dir)) {
+			IEnergyStorage storage = tile.getCapability(CapabilityEnergy.ENERGY, dir);
 			if (dir == null || storage.canReceive()) {
 				int transferRF = Math.min(storage.getMaxEnergyStored(), transfer.stored < Integer.MAX_VALUE ? (int) transfer.stored : Integer.MAX_VALUE);
 				transfer.stored -= storage.receiveEnergy(transferRF, action.shouldSimulate());
@@ -40,8 +40,8 @@ public class GenericForgeEnergyHandler {
 	}
 
 	public static StoredEnergyStack removeEnergy(StoredEnergyStack transfer, ICapabilityProvider tile, EnumFacing dir, ActionType action) {
-		IEnergyStorage storage = tile.getCapability(CapabilityEnergy.ENERGY, dir);
-		if (storage != null) {
+		if (tile.hasCapability(CapabilityEnergy.ENERGY, dir)) {
+			IEnergyStorage storage = tile.getCapability(CapabilityEnergy.ENERGY, dir);
 			if (dir == null || storage.canExtract()) {
 				int transferRF = Math.min(storage.getMaxEnergyStored(), transfer.stored < Integer.MAX_VALUE ? (int) transfer.stored : Integer.MAX_VALUE);
 				transfer.stored -= storage.extractEnergy(transferRF, action.shouldSimulate());
